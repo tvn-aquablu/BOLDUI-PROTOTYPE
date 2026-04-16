@@ -45,7 +45,21 @@ export function CraftBuilder({ onDispense, onBack }) {
   const selectNeedState = (ns) => {
     setNeedStateId(ns.id);
     setBoosts(ns.boosts);
-    setFlavorId(ns.recommendedFlavorId);
+  };
+
+  const handleNextStep = () => {
+    if (step === 0) {
+      // Transitioning to Step 2 (Flavour)
+      const ns = NEED_STATES.find(n => n.id === needStateId);
+      if (ns && !flavorId) {
+        setFlavorId(ns.recommendedFlavorId);
+      }
+      setStep(1);
+    } else if (step === 1) {
+      setStep(2);
+    } else {
+      onDispense({ flavor: flavorObj, boosts, waterType, volume, intensity });
+    }
   };
 
   const canContinue = step === 0 ? !!needStateId : step === 1 ? !!flavorId : true;
@@ -75,18 +89,26 @@ export function CraftBuilder({ onDispense, onBack }) {
     ...selectedBoosts.map(b => ({ name: b.ingredient, type: "boost" })),
     ...(flavorObj?.vitamins || []).map(v => ({ name: v.botanical ? v.code : `Vitamin ${v.code}`, type: "flavor" }))
   ];
+return (
+  <div style={{ 
+    width: "1600px", 
+    height: "1200px", 
+    background: "#F8F9FC", 
+    position: "relative", 
+    fontFamily: "'Futura Now Text', system-ui, sans-serif", 
+    color: "#16243E",
+    overflow: "hidden" 
+  }}>
 
-  return (
-    <div style={{ width: "1600px", height: "1200px", background: "#f5f5f7", position: "relative", fontFamily: "'Futura Now Headline', system-ui, sans-serif", overflow: "hidden" }}>
-      
-      <div style={{ position: "absolute", left: "64px", top: "70px" }}>
-        <div style={{ fontSize: "64px", fontWeight: "900", color: "#000000", textTransform: "uppercase", lineHeight: "1" }}>
-          Hydration
-        </div>
-        <div style={{ fontSize: "32px", fontWeight: "900", color: "#9999a4", textTransform: "uppercase", marginTop: "14px", letterSpacing: "-0.64px" }}>
-          Tailored to your needs
-        </div>
+    {/* Left Sidebar: Brand & Glass */}
+    <div style={{ position: "absolute", left: "64px", top: "70px" }}>
+      <div style={{ fontSize: "64px", fontWeight: "900", color: "#16243E", textTransform: "uppercase", lineHeight: "1", fontFamily: "'Futura Now Headline'" }}>
+        Hydration
       </div>
+      <div style={{ fontSize: "32px", fontWeight: "900", color: "#1EDCF8", textTransform: "uppercase", marginTop: "14px", letterSpacing: "-0.64px", fontFamily: "'Futura Now Headline'" }}>
+        Tailored to your needs
+      </div>
+    </div>
 
       <div style={{ position: "absolute", left: "64px", top: "204px", width: "537px", height: "932px" }}>
         <div style={{ position: "absolute", left: 0, top: 0, display: "flex", flexDirection: "column", gap: "24px", paddingTop: "20px" }}>
@@ -113,7 +135,7 @@ export function CraftBuilder({ onDispense, onBack }) {
           ))}
         </div>
 
-        <div style={{ position: "absolute", left: "140px", top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ position: "absolute", left: "200px", top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ transform: "scale(2.2)" }}>
             <GlassViz boostLayers={selectedBoosts} flavorObj={flavorObj} waterType={waterType} volume={volume} animPhase={step + 1} />
           </div>
@@ -321,7 +343,25 @@ export function CraftBuilder({ onDispense, onBack }) {
           )}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <button onClick={step > 0 ? () => setStep(s => s - 1) : onBack} style={{ background: "none", border: "none", color: "#86868d", fontSize: "20px", fontWeight: "500", cursor: "pointer", fontFamily: "inherit" }}>← Back</button>
-            <button disabled={!canContinue} onClick={() => { if (step < 2) setStep(s => s + 1); else onDispense({ flavor: flavorObj, boosts, waterType, volume, intensity }); }} style={{ background: "#000", color: "#fff", padding: "20px 40px", borderRadius: "40px", border: "none", fontSize: "20px", fontWeight: "bold", cursor: canContinue ? "pointer" : "not-allowed", opacity: canContinue ? 1 : 0.5, display: "flex", alignItems: "center", gap: "12px", fontFamily: "inherit" }}>
+            <button 
+              disabled={!canContinue}
+              onClick={handleNextStep}
+              style={{ 
+                background: "#000", 
+                color: "#fff", 
+                padding: "20px 40px", 
+                borderRadius: "40px", 
+                border: "none", 
+                fontSize: "20px", 
+                fontWeight: "bold", 
+                cursor: canContinue ? "pointer" : "not-allowed",
+                opacity: canContinue ? 1 : 0.5,
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                fontFamily: "inherit"
+              }}
+            >
               {step === 2 ? "Dispense Drink" : "Next Step"}
               <ArrowIcon color="#fff" size={24} />
             </button>

@@ -26,7 +26,7 @@ export function GlassViz({ boostLayers, flavorObj, waterType, volume, animPhase,
   ];
 
   const totalIngH = allLayers.reduce((s, l) => s + l.height, 0);
-  const waterBase = (animPhase >= 1 || bLayers.length > 0 || fLayer) ? 30 : 0;
+  const waterBase = (animPhase >= 3) ? 30 : 0;
   const rem = maxH - totalIngH - waterBase;
   const waterFill = fillProgress != null ? (rem * Math.min(fillProgress, 100) / 100) : 0;
 
