@@ -160,7 +160,7 @@ return (
         <div style={{ width: "100%" }}>
           <div style={{ marginBottom: "64px" }}>
             <div style={{ fontSize: "16px", fontWeight: "bold", color: "#8e8e9e", textTransform: "uppercase", marginBottom: "8px" }}>
-              Step {step + 1} - {step === 0 ? "Need" : step === 1 ? "Flavour" : "Water Type"}
+              Step {step + 1} - {step === 0 ? "Selection" : step === 1 ? "Flavour" : "Water Type"}
             </div>
             <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
               <div style={{ height: "16px", borderRadius: "4px", width: "200px", background: step >= 0 ? "#8e8e9e" : "#e8e8ef" }} />
@@ -171,11 +171,11 @@ return (
 
           {step === 0 && (
             <div>
-              <div style={{ fontSize: "36px", fontWeight: "bold", color: "#000000", marginBottom: "16px", letterSpacing: "-0.72px" }}>
+              <div style={{ fontSize: "36px", fontWeight: "bold", color: "#16243E", marginBottom: "16px", letterSpacing: "-0.72px", fontFamily: "'Futura Now Headline'" }}>
                 What does your body need?
               </div>
-              <div style={{ fontSize: "28px", fontWeight: "400", color: "#1d1d1f", marginBottom: "48px" }}>
-                Select a need state to optimize your hydration
+              <div style={{ fontSize: "28px", fontWeight: "400", color: "#626573", marginBottom: "48px" }}>
+                Select what you need to optimize your hydration
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px" }}>
